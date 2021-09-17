@@ -1,6 +1,6 @@
 import express from 'express'
 //import path from 'path'
-//import bodyParser from 'body-parser'
+import bodyParser from 'body-parser'
 //import cookieParser from 'cookie-parser'
 import compress from 'compression'
 import cors from 'cors'
@@ -15,8 +15,8 @@ const app = express()
 // devBundle.compile(app)
 
 // parse body params and attach them to req.body -- bodyParser is deprecated
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 //app.use(cookieParser())  
 // compression - compression middleware will attempt to compress response bodies 
 // for all requests that pass through middleware

@@ -14,6 +14,6 @@ router.route('/event/:eventId')
     .put(eventCtrl.update)
     .delete(eventCtrl.remove)
 
-router.param('userId', eventCtrl.eventByID)
+router.param('eventId', eventCtrl.eventByID)
 
 export default router

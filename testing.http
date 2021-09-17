@@ -1,0 +1,61 @@
+
+###
+GET http://localhost:3000/ HTTP/1.1
+
+###
+POST http://localhost:3000/event/exchange HTTP/1.1
+content-type: application/json
+
+{ 
+    "event_type": "Offer",
+    "service_type": "Drinking water",
+    "name": "Tengo Kawana",
+    "address": "15 Higgins St",
+    "zip": "02917",
+    "email": "tkawa@testmail.com",
+    "geo": "none"
+
+}
+
+###
+
+GET http://localhost:3000/event/exchange HTTP/1.1
+content-type: application/json
+
+###
+
+GET http://localhost:3000/event/6144db9be737722d3c9b67f3 HTTP/1.1
+content-type: application/json
+
+###
+
+PUT http://localhost:3000/event/6144db9be737722d3c9b67f3 HTTP/1.1
+content-type: application/json
+
+{ 
+    "event_type": "Offer",
+    "service_type": "Drinking water",
+    "name": "Tengo Kawana",
+    "address": "16 Higgins St",
+    "zip": "02918",
+    "email": "tkawa@testmail.com",
+    "geo": "none"
+
+}
+
+###
+
+PUT http://localhost:3000/event/6144db9be737722d3c9b67f3 HTTP/1.1
+content-type: application/json
+
+{ 
+    "event_type": "Request"
+
+}
+
+###
+
+DELETE http://localhost:3000/event/6144db9be737722d3c9b67f3 HTTP/1.1
+content-type: application/json
+
+###
