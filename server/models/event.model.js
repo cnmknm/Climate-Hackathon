@@ -24,7 +24,7 @@ const EventSchema = new mongoose.Schema({
     },
 
     zip: {
-        type: String,
+        type: Number,
         required: 'Zip is required'
     },
 
@@ -36,13 +36,23 @@ const EventSchema = new mongoose.Schema({
         required: 'Email is required'
     },
 
-    geo: String,
+    longitude: {
+        type: String,
+        required: true,
+    },
+
+    latitude: {
+        type: String,
+        require: true,
+    },
+
     updated: Date,
+
     created: {
         type: Date,
         default: Date.now
     }
-})
+});
 
 /*
 UserSchema
