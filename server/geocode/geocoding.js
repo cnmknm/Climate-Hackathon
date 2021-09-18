@@ -1,5 +1,7 @@
+
 //Google API Key
-const api_key = AIzaSyDfQVi5YHKDZmPdwbMUXKMWRzCwfcdDhms
+const api_key = "AIzaSyDfQVi5YHKDZmPdwbMUXKMWRzCwfcdDhms";
+const { MongoClient } = require('mongodb');
 
 //Convert zip code/address to latitude and longitude 
 function convertZipToCoord(address) {
@@ -7,7 +9,7 @@ function convertZipToCoord(address) {
     fetch(api, {
         method: 'get'
     }).then(function (response) {
-        var coord = response[0].reuslts.geomery.location
+        var coord = response.results[0].geomery.location
         return coord //this is a {lat, lng}. so when parsing these, use coord.lat and coord.lng
     }).catch(function (err) {
         alert("there is an error ", err)
@@ -19,7 +21,7 @@ function convertcoordtoZip(lat, lng) {
     fetch(api, {
         method: 'get'
     }).then(function (response) {
-        var zip = response[0].results.address_components[7].long_name
+        var zip = response.results[0].address_components[7].long_name
         return zip //this is a string of sentence of full address
     }).catch(function (err) {
         alert("there is an error ", err)
@@ -50,18 +52,26 @@ function geoFindme() {
 };
 //code to add when clicking on the submit button: document.querySelector('#find-me').addEventListener('click', geoFindMe);
 
-
+//client needs to be connecting to mongodb
 function match(location, filter, distance) {
-    db.places.aggregate({
-        $geoNear: {
-            near: location,
-            distanceField: "dist.calculated",
-            maxDistance: distance,
-            query: { filter }, //filter needs to be in JSON format
-            includeLocs: "dist.location",
-            spherical: true
-        }
-    })
+    const uri = "mongodb://localhost:27017/exchangesandbox";
+    const client = new MongoClient(uri)
+    try {
+        client.connect();
+        const result = client.db("exchangesandbox").collection("events").aggregate({
+            $geoNear: {
+                near: location,
+                distanceField: "dist.calculated",
+                maxDistance: distance,
+                query: { filter }, //filter needs to be in JSON format
+                includeLocs: "dist.location",
+                spherical: true
+            }
+        })
+    } finally {
+        client.close();
+        return result
+    }
 };
 
 export { convertZipToCoord, convertcoordtoZip, geoFindme, match };
