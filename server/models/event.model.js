@@ -36,12 +36,12 @@ const EventSchema = new mongoose.Schema({
         required: 'Email is required'
     },
 
-    longitude: {
-        type: String
-    },
-
-    latitude: {
-        type: String
+    location: {
+        type: "Point",
+        coordinates: {
+            type: [Number],
+            required: true
+        }
     },
 
     updated: Date,

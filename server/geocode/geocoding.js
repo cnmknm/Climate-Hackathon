@@ -47,8 +47,21 @@ function geoFindme() {
         navigator.geolocation.getCurrentPosition(success, error);
     }
 
-}
+};
 //code to add when clicking on the submit button: document.querySelector('#find-me').addEventListener('click', geoFindMe);
 
 
-export { convertZipToCoord, convertcoordtoZip, geoFindme };
+function match(location, filter, distance) {
+    db.places.aggregate({
+        $geoNear: {
+            near: location,
+            distanceField: "dist.calculated",
+            maxDistance: distance,
+            query: { filter }, //filter needs to be in JSON format
+            includeLocs: "dist.location",
+            spherical: true
+        }
+    })
+};
+
+export { convertZipToCoord, convertcoordtoZip, geoFindme, match };

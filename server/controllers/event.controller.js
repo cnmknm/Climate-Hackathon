@@ -2,6 +2,7 @@
 import Event from '../models/event.model.js'
 import extend from 'lodash/extend.js'
 import errorHandler from '../helpers/dbErrorHandler.js'
+import * as geocode from '../geocode/geocoding.js'
 
 
 // Note how this uses the mongoose methods to operate on the mongo db (e.g. find, findById, select, etc)
@@ -10,9 +11,8 @@ const create = async (req, res) => {
     const event = new Event(req.body)
     try {
         await event.save()
-        return res.status(200).json({
-            message: "Successfully registered an event!"
-        })
+        const matching = geocode.match(location, filter, distance)
+        return res.status(200).send(matching)
     } catch (err) {
         return res.status(400).json({
             error: errorHandler.getErrorMessage(err)
